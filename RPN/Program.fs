@@ -30,7 +30,7 @@ let rec solve equation =
         let newEquation = Regex.Replace(equation, unaryOpPattern, sprintf "%f" result)
         solve newEquation
     | Regex binaryOpPattern [num1; num2; op] ->
-        let result = (getBinaryOp op) (float num1) (float num2)
+        let result = getBinaryOp op (float num1) (float num2)
         let newEquation = Regex.Replace(equation, binaryOpPattern, sprintf "%f" result)
         solve newEquation
     | Regex singleNumberPattern [number] -> Some number
