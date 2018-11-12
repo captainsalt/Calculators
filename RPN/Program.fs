@@ -1,8 +1,8 @@
 ﻿open System.Text.RegularExpressions
 
-let fragmentPattern = @"(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)\s+([+-/*xX%])"
+let binaryOpPattern = @"(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)\s+([+-/*xX%])"
+let unaryOpPattern = @"(\d+)\ssqrt"
 let singleNumberPattern = @"^(\d+(?:\.\d+)?)$"
-let sqrtPattern = @"(\d+)\ssqrt"
 
 let getOp = function
     | "+" -> (+)
@@ -21,13 +21,13 @@ let (|Regex|_|) pattern equation =
 
 let rec solve equation =
     match equation with
-    | Regex sqrtPattern [num] -> 
+    | Regex unaryOpPattern [num] -> 
         let result = sqrt (float num)
-        let newEquation = Regex.Replace(equation, sqrtPattern, sprintf "%f" result)
+        let newEquation = Regex.Replace(equation, unaryOpPattern, sprintf "%f" result)
         solve newEquation
-    | Regex fragmentPattern [num1; num2; op] ->
+    | Regex binaryOpPattern [num1; num2; op] ->
         let result = (getOp op) (float num1) (float num2)
-        let newEquation = Regex.Replace(equation, fragmentPattern, sprintf "%f" result)
+        let newEquation = Regex.Replace(equation, binaryOpPattern, sprintf "%f" result)
         solve newEquation
     | Regex singleNumberPattern [number] -> Some number
     | _ -> None

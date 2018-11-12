@@ -2,7 +2,7 @@
   "profiles": {
     "RPN": {
       "commandName": "Project",
-      "commandLineArgs": "60 5.3 4.2 * /"
+      "commandLineArgs": "100 sqrt 4 2 x %"
     }
   }
 }
