@@ -3,13 +3,13 @@
 let fragmentPattern = @"(\d+)\s+(\d+)\s+([+-/*xX])"
 
 let getOp = function
-    | '+' -> (+)
-    | '-' -> (-)
-    | '/' -> (/)
-    | 'X'
-    | 'x'
-    | '*' -> (*)
-    | _ as op -> failwith (sprintf "Invalid operation: %c" op)
+    | "+" -> (+)
+    | "-" -> (-)
+    | "/" -> (/)
+    | "X"
+    | "x"
+    | "*" -> (*)
+    | _ as op -> failwith (sprintf "Invalid operation: %s" op)
 
 let (|Regex|_|) pattern equation =
     let matches = Regex.Match(equation, pattern)
@@ -19,7 +19,7 @@ let (|Regex|_|) pattern equation =
 let rec solve equation =
     match equation with
     | Regex fragmentPattern [num1; num2; op] ->
-        let result = (getOp (char op)) (int num1) (int num2)
+        let result = (getOp op) (int num1) (int num2)
         let newEquation = Regex.Replace(equation, fragmentPattern, sprintf "%i" result)
         solve newEquation
     | Regex @"^(\d+)$" [number] -> Some number
