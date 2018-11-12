@@ -29,7 +29,7 @@ let rec solve equation =
         let result = (getOp op) (float num1) (float num2)
         let newEquation = Regex.Replace(equation, fragmentPattern, sprintf "%f" result)
         solve newEquation
-    | Regex @"^(\d+(?:\.\d+)?)$" [number] -> Some number
+    | Regex singleNumberPattern [number] -> Some number
     | _ -> None
 
 [<EntryPoint>]
