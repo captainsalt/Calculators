@@ -1,8 +1,39 @@
-﻿// Learn more about F# at http://fsharp.org
+﻿open System.Text.RegularExpressions
+let fragmentPattern = @"(\d+)\s+(\d+)\s+([+-/*xX])"
 
-open System
+let getOp = function
+    | '+' -> (+)
+    | '-' -> (-)
+    | '/' -> (/)
+    | 'X'
+    | 'x'
+    | '*' -> (*)
+    | _ as op -> failwith (sprintf "Invalid operation: %c" op)
+
+let (|Regex|_|) pattern equation =
+    let matches = Regex.Match(equation, pattern)
+    if matches.Success then Some(List.tail [ for g in matches.Groups -> g.Value ])
+    else None
+
+let rec solve equation =
+    match equation with
+    | Regex fragmentPattern [num1; num2; op] ->
+        let result = (getOp (char op)) (int num1) (int num2)
+        let newEquation = Regex.Replace(equation, fragmentPattern, sprintf "%i" result)
+        solve newEquation
+    | Regex @"^(\d+)$" [number] -> Some number
+    | _ -> None
 
 [<EntryPoint>]
 let main argv =
-    printfn "Hello World from F#!"
-    0 // return an integer exit code
+    let solution =
+        argv
+        |> Array.toSeq
+        |> String.concat " "
+        |> solve
+
+    match solution with
+    | Some solution -> printfn "%s" solution
+    | None -> printfn "An error has occured"
+
+    0
