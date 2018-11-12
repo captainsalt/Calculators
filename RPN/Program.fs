@@ -1,4 +1,5 @@
 ﻿open System.Text.RegularExpressions
+
 let fragmentPattern = @"(\d+)\s+(\d+)\s+([+-/*xX])"
 
 let getOp = function
