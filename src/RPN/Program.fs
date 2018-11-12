@@ -18,20 +18,20 @@ let getUnaryOp = function
     | "sqrt" -> (sqrt)
     | _ as op -> failwith (sprintf "Invalid operation: %s" op)
 
-let (|Regex|_|) pattern equation =
-    let matches = Regex.Match(equation, pattern)
+let (|Regex|_|) pattern expression =
+    let matches = Regex.Match(expression, pattern)
     if matches.Success then Some(List.tail [ for g in matches.Groups -> g.Value ])
     else None
 
-let rec solve equation =
-    match equation with
+let rec solve expression =
+    match expression with
     | Regex unaryOpPattern [num; op] -> 
         let result = getUnaryOp op (float num)
-        let newEquation = Regex.Replace(equation, unaryOpPattern, sprintf "%f" result)
+        let newEquation = Regex.Replace(expression, unaryOpPattern, sprintf "%f" result)
         solve newEquation
     | Regex binaryOpPattern [num1; num2; op] ->
         let result = getBinaryOp op (float num1) (float num2)
-        let newEquation = Regex.Replace(equation, binaryOpPattern, sprintf "%f" result)
+        let newEquation = Regex.Replace(expression, binaryOpPattern, sprintf "%f" result)
         solve newEquation
     | Regex singleNumberPattern [number] -> Some number
     | _ -> None
