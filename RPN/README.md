@@ -1,6 +1,3 @@
-# Parsing
-Parsing equations and things of the like with F#
-
 # RPN
 A parser for [Reverse Polish Notations](https://en.wikipedia.org/wiki/Reverse_Polish_notation)
 
