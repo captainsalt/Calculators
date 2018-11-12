@@ -1,6 +1,8 @@
 ﻿open System.Text.RegularExpressions
 
-let fragmentPattern = @"(\d+)\s+(\d+)\s+([+-/*xX])"
+let fragmentPattern = @"(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)\s+([+-/*xX%])"
+let singleNumberPattern = @"^(\d+(?:\.\d+)?)$"
+let sqrtPattern = @"(\d+)\ssqrt"
 
 let getOp = function
     | "+" -> (+)
@@ -9,6 +11,7 @@ let getOp = function
     | "X"
     | "x"
     | "*" -> (*)
+    | "%" -> (%)
     | _ as op -> failwith (sprintf "Invalid operation: %s" op)
 
 let (|Regex|_|) pattern equation =
@@ -18,20 +21,20 @@ let (|Regex|_|) pattern equation =
 
 let rec solve equation =
     match equation with
-    | Regex fragmentPattern [num1; num2; op] ->
-        let result = (getOp op) (int num1) (int num2)
-        let newEquation = Regex.Replace(equation, fragmentPattern, sprintf "%i" result)
+    | Regex sqrtPattern [num] -> 
+        let result = sqrt (float num)
+        let newEquation = Regex.Replace(equation, sqrtPattern, sprintf "%f" result)
         solve newEquation
-    | Regex @"^(\d+)$" [number] -> Some number
+    | Regex fragmentPattern [num1; num2; op] ->
+        let result = (getOp op) (float num1) (float num2)
+        let newEquation = Regex.Replace(equation, fragmentPattern, sprintf "%f" result)
+        solve newEquation
+    | Regex @"^(\d+(?:\.\d+)?)$" [number] -> Some number
     | _ -> None
 
 [<EntryPoint>]
 let main argv =
-    let solution =
-        argv
-        |> Array.toSeq
-        |> String.concat " "
-        |> solve
+    let solution = argv |> String.concat " " |> solve
 
     match solution with
     | Some solution -> printfn "%s" solution

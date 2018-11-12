@@ -2,7 +2,7 @@
   "profiles": {
     "RPN": {
       "commandName": "Project",
-      "commandLineArgs": "60 5 4 * /"
+      "commandLineArgs": "60 5.3 4.2 * /"
     }
   }
 }
