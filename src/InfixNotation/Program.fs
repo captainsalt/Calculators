@@ -68,7 +68,7 @@ let solve = validateExpression >> solveExpression
 
 [<EntryPoint>]
 let main argv =
-    let solution = ["1.5 * 20"] |> String.concat " " |> solve
+    let solution = argv |> String.concat " " |> solve
     printfn "%s" solution
     0
 
