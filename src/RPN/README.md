@@ -1,5 +1,5 @@
 # RPN
-A parser for [Reverse Polish Notations](https://en.wikipedia.org/wiki/Reverse_Polish_notation)
+A calculator that uses [Reverse Polish Notation](https://en.wikipedia.org/wiki/Reverse_Polish_notation)
 
 ## How to use?
 - Clone the repo and run it in visual studio
