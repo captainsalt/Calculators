@@ -27,11 +27,11 @@ let getBinaryOp = function
 | "%" -> (%)
 | _ as op -> failwithf "Invalid operation: %s" op
 
-let validateExpression expression = 
+let validateExpression expression =
     let openBracketCount = expression |> Seq.filter (fun c -> c = ')') |> Seq.length
     let closingBracketCount = expression |> Seq.filter (fun c -> c = '(') |> Seq.length
 
-    match (openBracketCount, closingBracketCount) with 
+    match (openBracketCount, closingBracketCount) with
     | (openC, closeC) when openC = closeC -> expression
     | _ -> failwithf "Invalid expression - Bracket mismatch: %s" expression
 
