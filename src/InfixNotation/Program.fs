@@ -2,15 +2,15 @@
 
 let numberPattern = @"\d+(?:\.\d+)?"
 let solvedPattern = sprintf @"^(%s)$" numberPattern
-let expressionPattern = sprintf @"(%s)\s+([+-/*xX%%])\s+(%s)" numberPattern numberPattern
+let expressionPattern = sprintf @"(%s)\s*([+-/*xX%%])\s*(%s)" numberPattern numberPattern
 
-type Order = 
-| First 
-| Second 
+type Order =
+| First
+| Second
 
 let orderOperationPattern = function
-| First -> sprintf @"(%s)\s+([/*xX%%])\s+(%s)" numberPattern numberPattern
-| Second -> sprintf @"(%s)\s+([+-])\s+(%s)" numberPattern numberPattern
+| First -> sprintf @"(%s)\s*([/*xX%%])\s*(%s)" numberPattern numberPattern
+| Second -> sprintf @"(%s)\s*([+-])\s*(%s)" numberPattern numberPattern
 
 let (|Regex|_|) pattern equation =
     let matches = Regex.Match(equation, pattern)
@@ -25,42 +25,46 @@ let getBinaryOp = function
 | "x"
 | "*" -> (*)
 | "%" -> (%)
-| _ as op -> failwith (sprintf "Invalid operation: %s" op)
+| _ as op -> failwithf "Invalid operation: %s" op
 
-/// Calculates an expression
-let rec calculate = function 
-| Regex (orderOperationPattern First) [num1; op; num2] as expression ->
-    let solution = sprintf "%i" (getBinaryOp op (int num1) (int num2))
-    let newExpression = Regex.Replace(expression, sprintf "%s\s[%s]\s%s" num1 op num2, solution)
-    calculate newExpression
-| Regex (orderOperationPattern Second) [num1; op; num2] as expression ->
-    let solution = sprintf "%i" (getBinaryOp op (int num1) (int num2))
-    let newExpression = Regex.Replace(expression, sprintf "%s\s[%s]\s%s" num1 op num2, solution)
-    calculate newExpression
-| Regex solvedPattern [solution] -> 
-    solution
-| _ as invalid -> failwithf "Invalid expression: %s" invalid
+let validateExpression expression = 
+    let openBracketCount = expression |> Seq.filter (fun c -> c = ')') |> Seq.length
+    let closingBracketCount = expression |> Seq.filter (fun c -> c = '(') |> Seq.length
+
+    match (openBracketCount, closingBracketCount) with 
+    | (openC, closeC) when openC = closeC -> expression
+    | _ -> failwithf "Invalid expression - Bracket mismatch: %s" expression
+
+/// Recursively solves an expression in the correct order
+let rec calculate expression =
+    // Solves a simple binary expression within a larger expression
+    let solveFragment operator a b  =
+        let solution = sprintf "%i" (getBinaryOp operator (int a) (int b))
+        Regex.Replace(expression, sprintf "(\s*%s\s*[%s]\s*%s\s*)" a operator b, solution)
+
+    match expression with
+    | Regex (orderOperationPattern First) [num1; op; num2]  ->
+        calculate (solveFragment op num1 num2)
+    | Regex (orderOperationPattern Second) [num1; op; num2] ->
+        calculate (solveFragment op num1 num2)
+    | Regex solvedPattern [solution] ->
+        solution
+    | _ -> failwithf "Could not solve expression: %s" expression
 
 /// Gets and solves expressions in brackets from left to right
-let rec solveBrackets (expression: string) = 
+let rec solveExpression (expression: string) =
     let someEndIndex = expression |> Seq.tryFindIndex (fun c -> c = ')')
 
     match someEndIndex with
     | Some endIndex ->
-        let someStartIndex = expression.[0..endIndex - 1] |> Seq.tryFindIndexBack (fun c -> c = '(')
-
-        match someStartIndex with 
-        | Some startIndex -> 
-            let expressionFragment = expression.[startIndex + 1..endIndex - 1]
-            let solution = calculate expressionFragment
-            let newExpression = expression.Replace(sprintf "(%s)" expressionFragment, solution)
-            solveBrackets newExpression
-        | None -> failwith "Cannot solve expression. Bracket mismatch"
+        let startIndex = expression.[0..endIndex - 1] |> Seq.findIndexBack (fun c -> c = '(')
+        let expressionFragment = expression.[startIndex + 1..endIndex - 1]
+        let solution = calculate expressionFragment
+        let newExpression = expression.Replace(sprintf "(%s)" expressionFragment, solution)
+        solveExpression newExpression
     | None -> calculate expression
 
-let solve = function
-| Regex solvedPattern [solution] -> solution
-| _ as expression -> solveBrackets expression
+let solve = validateExpression >> solveExpression
 
 [<EntryPoint>]
 let main argv =
