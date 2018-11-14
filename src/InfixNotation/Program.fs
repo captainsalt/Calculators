@@ -71,4 +71,3 @@ let main argv =
     let solution = argv |> String.concat " " |> solve
     printfn "%s" solution
     0
-
