@@ -39,7 +39,7 @@ let validateExpression expression =
 let rec calculate expression =
     // Solves a simple binary expression within a larger expression
     let solveFragment operator a b  =
-        let solution = sprintf "%f" (getBinaryOp operator (float a) (float b))
+        let solution = sprintf "%f" (getBinaryOp operator <| float a <| float b)
         Regex.Replace(expression, sprintf "(\s*%s\s*[%s]\s*%s\s*)" a operator b, solution)
 
     match expression with
