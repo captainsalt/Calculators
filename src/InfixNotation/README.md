@@ -1,4 +1,4 @@
-# RPN
+# Infix Notation
 A calculator that uses [Infix Notation](https://en.wikipedia.org/wiki/Infix_notation)
 
 ## How to use?
