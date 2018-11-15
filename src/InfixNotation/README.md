@@ -1,5 +1,5 @@
-# RPN
-A calculator that uses [Reverse Polish Notation](https://en.wikipedia.org/wiki/Reverse_Polish_notation)
+# Infix Notation
+A calculator that uses [Infix Notation](https://en.wikipedia.org/wiki/Infix_notation)
 
 ## How to use?
 - Clone the repo and run it in visual studio
@@ -8,23 +8,24 @@ A calculator that uses [Reverse Polish Notation](https://en.wikipedia.org/wiki/R
 
 After you're set up you can call the `solve` function with the expression as the argument. You need to wrap the expression in quotations since the function takes in a single string
 ```fs
-solve "100 sqrt 4 2 x %" // 2
+solve "1 + 1" // 2
 ```
 
 If you're compiling the code into an exe, you can call it with the expression as the arguments. You do not need to wrap the expression in quotes.
 
 Examples: 
 ```console
-$ 8 8 x # 64
+$ 9 x 9 # 81
 
-$ 100 sqrt 5 x # 50
+$ (1 + 6 * 10) * 2  # 140  
 ```
 or
 ```console
-$ "10 10 x" # 100
+$ "(30 + 30 x (7 + 90) - 900)" # 2040
 
 $ "10 % 6" # 4
 ```
+
 # Operators
 
 ### Binary Operators
@@ -33,6 +34,3 @@ $ "10 % 6" # 4
 - `/` For division
 - `*` For multiplication - You may also use `x`
 - `%` For modulus 
-
-### Unary Operators
-- `sqrt` To find the square root of a number

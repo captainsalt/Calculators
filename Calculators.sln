@@ -3,17 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AD406EF5-6757-4C01-B748-8BF8596A96D0}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "RPN", "src\RPN\RPN.fsproj", "{5F033D1C-3F1B-46F0-8595-A1A84582B07C}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RPN", "src\RPN\RPN.fsproj", "{5F033D1C-3F1B-46F0-8595-A1A84582B07C}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "InfixNotation", "src\InfixNotation\InfixNotation.fsproj", "{FE7D722C-63D5-4C05-BF5E-FED2274401D8}"
 EndProject
 Global
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {9C1F2810-E67D-4240-BB79-A7236533A39A}
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -35,8 +29,23 @@ Global
 		{5F033D1C-3F1B-46F0-8595-A1A84582B07C}.Release|x64.Build.0 = Release|Any CPU
 		{5F033D1C-3F1B-46F0-8595-A1A84582B07C}.Release|x86.ActiveCfg = Release|Any CPU
 		{5F033D1C-3F1B-46F0-8595-A1A84582B07C}.Release|x86.Build.0 = Release|Any CPU
+		{FE7D722C-63D5-4C05-BF5E-FED2274401D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE7D722C-63D5-4C05-BF5E-FED2274401D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE7D722C-63D5-4C05-BF5E-FED2274401D8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FE7D722C-63D5-4C05-BF5E-FED2274401D8}.Debug|x64.Build.0 = Debug|Any CPU
+		{FE7D722C-63D5-4C05-BF5E-FED2274401D8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FE7D722C-63D5-4C05-BF5E-FED2274401D8}.Debug|x86.Build.0 = Debug|Any CPU
+		{FE7D722C-63D5-4C05-BF5E-FED2274401D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE7D722C-63D5-4C05-BF5E-FED2274401D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE7D722C-63D5-4C05-BF5E-FED2274401D8}.Release|x64.ActiveCfg = Release|Any CPU
+		{FE7D722C-63D5-4C05-BF5E-FED2274401D8}.Release|x64.Build.0 = Release|Any CPU
+		{FE7D722C-63D5-4C05-BF5E-FED2274401D8}.Release|x86.ActiveCfg = Release|Any CPU
+		{FE7D722C-63D5-4C05-BF5E-FED2274401D8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{5F033D1C-3F1B-46F0-8595-A1A84582B07C} = {AD406EF5-6757-4C01-B748-8BF8596A96D0}
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9C1F2810-E67D-4240-BB79-A7236533A39A}
 	EndGlobalSection
 EndGlobal
